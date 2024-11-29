@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  Amin:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1212
+      POSTGRES_DB: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  app:
+    build: .
+    environment:
+      DATABASE_URL: "postgresql://postgres:1212@Amin:5432/postgres"
+    depends_on:
+      - Amin
+    volumes:
+      - .:/app
+    command: python fichier_.py
+
+volumes:
+  postgres_data:
